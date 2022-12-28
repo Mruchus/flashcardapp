@@ -1,0 +1,28 @@
+[
+{
+    "model": "flashcards.Card",
+    "pk": 1,
+    "fields": {
+        "question": "What is the characteristic of a convergent sequence?",
+        "answer": "The difference between terms is decreasing."
+    }
+},
+{
+    "model": "flashcards.Card",
+    "pk": 2,
+    "fields": {
+        "question": "What is the characteristic of a divergent sequence?",
+        "answer": "The magnitude of difference between consecutive terms increases."
+    }
+},
+{
+    "model": "flashcards.Card",
+    "pk": 3,
+    "fields": {
+        "question": "What is the characteristic of a periodic sequence?",
+        "answer": "Terms are repeating."
+    }
+}
+
+]
+
