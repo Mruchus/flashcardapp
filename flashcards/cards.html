@@ -1,6 +1,26 @@
+{% block extrascripts %}
+<script>
+    MathJax = {
+      tex: {
+        <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+{% endblock extrascripts %}
+
 {% for card in cards %}
     <div>
         <h2>{{ card.question }}</h2>
-        <p>{{ card.answer }}</p>
+        <p>{{ card.answer}}</p>
     </div>
 {% endfor %}
+
+
