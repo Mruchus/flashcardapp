@@ -1,3 +1,5 @@
+<!-- default template file name expected by the generic class-based detail view -->
+
 {% block extrascripts %}
 <script>
     MathJax = {
@@ -16,11 +18,11 @@
 
 {% endblock extrascripts %}
 
-{% for card in cards %}
-    <div>
-        <h2>{{ card.question }}</h2>
-        <p>{{ card.answer}}</p>
-    </div>
-{% endfor %}
+<h2>{{ card.question }}</h2>
+<p>{{ card.answer }}</p>
 
-
+{% if card.pk != 1 %}
+<a href="{% url 'detail' card.pk|add:-1 %}">Previous</a>
+{% endif %}
+<!-- for later... query the max number of cards -->
+|<a href="{% url 'detail' card.pk|add:1 %}">Next</a>
