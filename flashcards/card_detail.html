@@ -21,8 +21,17 @@
 <h2>{{ card.question }}</h2>
 <p>{{ card.answer }}</p>
 
-{% if card.pk != 1 %}
-<a href="{% url 'detail' card.pk|add:-1 %}">Previous</a>
+<!-- not allow to step backwards from the first card -->
+{% if not start_of_cards %}
+<a href="{% url 'display_card' previous_id %}">Previous</a>
 {% endif %}
-<!-- for later... query the max number of cards -->
-|<a href="{% url 'detail' card.pk|add:1 %}">Next</a>
+
+<!-- reach end of cards so can add more cards -->
+{% if end_of_cards %}
+| <a href="{% url 'create_card' %}">Create Card</a>
+{% endif %}
+
+<!-- if not reach the end of the cards yet-->
+{% if not end_of_cards %}
+| <a href="{% url 'display_card' next_id %}">Next</a>
+{% endif %}

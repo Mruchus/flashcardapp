@@ -1,0 +1,18 @@
+{% block content %}
+    <h2>Create New Card</h2>
+    <form method="post">
+        <!--protect against cross-site request forgery (CSRF) attacks-->
+        {% csrf_token %}
+        <!-- rendering the form fields as paragraphs-->
+        {{ form.as_p }}
+        <input type="submit" value="Save Card">
+    </form>
+
+    <!-- go to card just created-->
+    <a href="{% url 'display_card' last_id %}">Previous</a>
+
+    <!-- reach end of cards so can add more cards -->
+    |<a href="{% url 'create_card' %}">Create Card</a>
+
+{% endblock %}
+
