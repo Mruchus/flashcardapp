@@ -4,6 +4,7 @@ from .models import Card
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
+    UpdateView
 )
 
 # class-based view -> allows you to display a list or detail page for a model
@@ -71,8 +72,12 @@ class CardCreateView(CreateView):
         context['last_id'] = Card.objects.all().last().id
         return context
 
+# form to edit flashcards
+class CardUpdateView(CardCreateView, UpdateView):
+    model = Card
+    # speicify what template to use when rendering the view
+    template_name = 'flashcards/card_form.html'
 
-
-
-
+    def get_success_url(self):
+        return reverse_lazy('display_card', kwargs={'card_id': self.object.pk}) # gets the id of the current card
 

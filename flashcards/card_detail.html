@@ -21,6 +21,13 @@
 <h2>{{ card.question }}</h2>
 <p>{{ card.answer }}</p>
 
+<!-- option to update card-->
+<a href="{% url 'card-update' card.id %}" role="button">
+    Edit Card
+</a>
+<br>
+<br>
+
 <!-- not allow to step backwards from the first card -->
 {% if not start_of_cards %}
 <a href="{% url 'display_card' previous_id %}">Previous</a>
@@ -35,3 +42,4 @@
 {% if not end_of_cards %}
 | <a href="{% url 'display_card' next_id %}">Next</a>
 {% endif %}
+
