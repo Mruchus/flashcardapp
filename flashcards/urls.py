@@ -11,8 +11,11 @@ urlpatterns = [
     path('flashcard/<int:card_id>/', views.card_detail, name='display_card'),
 
     # dynamic views
-    path("flashcard/new",views.CardCreateView.as_view(),name="create_card"), # will look for card_form.html template by default
-    path("edit/<int:pk>",views.CardUpdateView.as_view(),name="card-update"),
+    # will look for card_form.html template by default
+    path("flashcard/new",views.CardCreateView.as_view(),name="create_card"), 
+    path("edit/<int:pk>",views.CardUpdateView.as_view(),name="card_update"),
+    path("delete/<int:pk>",views.CardDeleteView.as_view(),name="card_delete"),
+
  
 ]
 # 'name' can be used later to refer specific views

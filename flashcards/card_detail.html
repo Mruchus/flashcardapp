@@ -22,14 +22,18 @@
 <p>{{ card.answer }}</p>
 
 <!-- option to update card-->
-<a href="{% url 'card-update' card.id %}" role="button">
-    Edit Card
+<a href="{% url 'card_update' card.id %}" role="button">
+    Edit
 </a>
-<br>
-<br>
 
 <!-- not allow to step backwards from the first card -->
 {% if not start_of_cards %}
+<!-- option to delete card -->
+| <a href="{% url 'card_delete' card.id %}" role="button">
+    Delete
+</a>
+<br>
+<br>
 <a href="{% url 'display_card' previous_id %}">Previous</a>
 {% endif %}
 

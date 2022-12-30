@@ -4,7 +4,8 @@ from .models import Card
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
-    UpdateView
+    UpdateView,
+    DeleteView
 )
 
 # class-based view -> allows you to display a list or detail page for a model
@@ -80,4 +81,28 @@ class CardUpdateView(CardCreateView, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('display_card', kwargs={'card_id': self.object.pk}) # gets the id of the current card
+
+class CardDeleteView(DeleteView): #looks for card_confirm_delete.html
+    model = Card
+    template_name = 'flashcards/card_confirm_delete.html'
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs) # get the default context data from the parent class
+        # get the id of the current card
+        context['current_id'] = self.object.pk
+        return context
+
+    def get_success_url(self):
+        card = self.object
+        cards = Card.objects.all()
+
+        # get id of previous card
+        for index, obj in enumerate(cards):
+            if obj == card:
+                current_i = index
+        previous_id = cards[current_i-1].id
+
+        return reverse_lazy('display_card', kwargs={'card_id': previous_id}) # gets the id of the previous card
+
+
 
