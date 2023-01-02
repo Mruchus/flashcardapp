@@ -1,22 +1,49 @@
 <!-- default template file name expected by the generic class-based detail view -->
-
 {% block extrascripts %}
 <script>
     MathJax = {
-      tex: {
-        <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
+        tex: {
+            <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
     }
-    </script>
-    <script type="text/javascript" id="MathJax-script" async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-    </script>
+</script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+<!-- Include the mathlive library -->
+<script type="module" src="//unpkg.com/mathlive">
+    import 'mathlive';
+</script>
 
 {% endblock extrascripts %}
+
+
+<!-- mathfield with keyboard -->
+<!-- <label>Type Here:</label>
+<br>
+<br>
+<math-field id=“formula” virtual-keyboard-mode="manual"
+role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">
+{{ card.question }}
+</math-field>
+<input id="latex"></input>
+<script>
+
+    // document.getElementById(
+    const mf = document.getElementsByTagName('math-field')[0];
+    mf.addEventListener('input', (ev) => { // listen for changes
+
+        document.getElementById('latex').value = mf.value; // set to new value
+    });
+
+    document.getElementById('latex').value = mf.innerText; // get new value and display
+</script>
+ -->
+
 
 <h2>{{ card.question }}</h2>
 <p>{{ card.answer }}</p>
@@ -46,4 +73,3 @@
 {% if not end_of_cards %}
 | <a href="{% url 'display_card' next_id %}">Next</a>
 {% endif %}
-

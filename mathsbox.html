@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<script>
+    MathJax = {
+        tex: {
+            <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    }
+</script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+<!DOCTYPE html>
+<!-- Include the mathlive library -->
+<script type="module" src="//unpkg.com/mathlive">
+    import 'mathlive';
+</script>
+
+
+<math-field id="formula" virtual-keyboard-mode="manual">
+    x=\frac{-b\pm \sqrt{b^2-4ac}}{2a}
+</math-field>
+
+<!-- Latex textarea element -->
+<label>Latex</label>
+<textarea class="output" id="latex" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+</textarea>
+
+<!-- Javascript -->
+<script>
+
+    const mf = document.getElementById('formula');
+    mf.addEventListener('input', (ev) => { // listen for changes
+
+        document.getElementById('latex').value = mf.value; // set to new value
+    });
+
+    document.getElementById('latex').value = mf.innerText; // get new value and display
+
+    document.getElementById('latex').addEventListener('input', (ev) => {
+        mf.setValue(ev.target.value, { suppressChangeNotifications: true }
+        );
+    });
+</script>
+

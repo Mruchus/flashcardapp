@@ -1,18 +1,71 @@
+<!-- default template file name expected by the generic class-based detail view -->
+{% block extrascripts %}
+<script>
+    MathJax = {
+        tex: {
+            <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    }
+</script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+<!-- Include the mathlive library -->
+<script type="module" src="//unpkg.com/mathlive">
+    import 'mathlive';
+</script>
+
+{% endblock extrascripts %}
+
 {% block content %}
     {% if card %}
         <!-- template recieves card data so should be in the edit view -->
         <h2>✏️ Edit Card</h2>
     {% else %}
-        <h2>✨ Create New Card</h2>
+        <h2> Create New Card</h2>
     {% endif %}
+    
     <form method="post">
-        <!--protect against cross-site request forgery (CSRF) attacks-->
         {% csrf_token %}
-        <!-- rendering the form fields as paragraphs-->
-        {{ form.as_p }}
-        <input type="submit" value="Save Card">
-    </form>
+        
+        <label>Question:</label>
+        <math-field id="question_formula" name="question" virtual-keyboard-mode="manual"
+         role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.question.value }}
+        </math-field>
+        <input name="question" type="hidden" id="id_question"></input>
+        <br>
 
+        <label>Answer:</label>
+        <math-field id="answer_formula" name="answer" virtual-keyboard-mode="manual"
+         role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.answer.value }}
+        </math-field>
+        <input name="answer" type="hidden" id="id_answer"></input>
+        
+        <input type="submit" value="Save Card">
+      </form>
+
+      <script>
+
+        // document.getElementById doesn't seem to pick up 'math-field' by id
+        const mf = document.getElementsByTagName('math-field')[0];
+        mf.addEventListener('input', (ev) => { // listen for changes
+            document.getElementById('id_question').value = mf.value; 
+        });
+    
+        document.getElementById('id_question').value = mf.innerText; // get new value and display
+
+        const answer_mf = document.getElementsByTagName('math-field')[1];
+        answer_mf.addEventListener('input', (ev) => { // listen for changes
+            document.getElementById('id_answer').value = answer_mf.value;
+        });
+    
+        document.getElementById('id_answer').value = answer_mf.innerText; // get new value and display
+    </script>
+    
     <!-- go to card just created-->
     <a href="{% url 'display_card' last_id %}">Previous</a>
 
@@ -20,4 +73,5 @@
     |<a href="{% url 'create_card' %}">Create Card</a>
 
 {% endblock %}
+
 

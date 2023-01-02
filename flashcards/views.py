@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django import forms
 from django.http import HttpResponse, Http404
 from .models import Card
 from django.urls import reverse_lazy
@@ -60,7 +61,7 @@ def card_detail(request, card_id):
 # form to add new flashcards
 class CardCreateView(CreateView):
     model = Card
-    fields = ["question", "answer"] # fields for the form
+    fields = ["question", "answer",] # fields for the form
     # after form successfully completed, return to creating more cards
     success_url = reverse_lazy("create_card") 
 
