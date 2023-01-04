@@ -19,34 +19,24 @@
     import 'mathlive';
 </script>
 
-{% endblock extrascripts %}
+<!-- imports for displaying equations statically -->
+<script defer type="module">
+    window.addEventListener('DOMContentLoaded', () => 
+      import('//unpkg.com/mathlive?module').then((mathlive) => 
+        mathlive.renderMathInDocument()
+      )
+    );
+</script>
 
+{% endblock extrascripts %} 
 
-<!-- mathfield with keyboard -->
-<!-- <label>Type Here:</label>
-<br>
-<br>
-<math-field id=“formula” virtual-keyboard-mode="manual"
-role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">
+<math-field style="font-size: 32px;" read-only style="display:inline-block">
 {{ card.question }}
 </math-field>
-<input id="latex"></input>
-<script>
 
-    // document.getElementById(
-    const mf = document.getElementsByTagName('math-field')[0];
-    mf.addEventListener('input', (ev) => { // listen for changes
-
-        document.getElementById('latex').value = mf.value; // set to new value
-    });
-
-    document.getElementById('latex').value = mf.innerText; // get new value and display
-</script>
- -->
-
-
-<h2>{{ card.question }}</h2>
-<p>{{ card.answer }}</p>
+<math-field style="font-size: 32px;" read-only style="display:inline-block">
+{{ card.answer }}
+</math-field>
 
 <!-- option to update card-->
 <a href="{% url 'card_update' card.id %}" role="button">
@@ -56,7 +46,7 @@ role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" ar
 <!-- not allow to step backwards from the first card -->
 {% if not start_of_cards %}
 <!-- option to delete card -->
-| <a href="{% url 'card_delete' card.id %}" role="button">
+| <a href="{% url 'card_delete' card.id %}" role="button">%
     Delete
 </a>
 <br>

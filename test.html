@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-
-<script>
-    MathJax = {
-        tex: {
-            <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
-            inlineMath: [['$', '$'], ['\\(', '\\)']]
-        },
-        svg: {
-            fontCache: 'global'
-        }
-    }
-</script>
-<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
-
-<!DOCTYPE html>
-<!-- Include the mathlive library -->
-<script type="module" src="//unpkg.com/mathlive">
-    import 'mathlive';
-</script>
+<head>
+    <link 
+      rel="stylesheet" 
+      href="https://unpkg.com/mathlive/dist/mathlive-static.css" 
+    />
+</head>
+<html>
+<body>
+  <div id="formula"></div>
+  <script type="module">
+    window.addEventListener('DOMContentLoaded', () => 
+      import('https://unpkg.com/mathlive?module').then((mathlive) => {
+        document.getElementById("formula").innerHTML = 
+          mathlive.convertLatexToMarkup(`\\xrightarrow[\\Delta]{\\text{abcd}}`)
+      })
+    );
+  </script>
+</body>
+</html>
