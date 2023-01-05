@@ -1,8 +1,5 @@
 from django.db import models
 
-from django.db import models
-
-
 # create a model of the flashcard
 class Card(models.Model):
     question = models.CharField(max_length=400)
@@ -12,3 +9,5 @@ class Card(models.Model):
 
     def __str__(self) -> str:
         return f'{self.question}'
+
+

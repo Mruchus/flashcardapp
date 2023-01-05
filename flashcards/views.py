@@ -27,9 +27,12 @@ def display_cards(request):
 def card_detail(request, card_id):
     num_cards = Card.objects.count()
     try:
+        # get card based on pk
         card = Card.objects.get(pk=card_id)
+        # get a collection of all card objects
         cards = Card.objects.all()
-        #print(cards)
+
+        # find the index of the card
         for index, obj in enumerate(cards):
             if obj == card:
                 current_i = index
@@ -37,22 +40,23 @@ def card_detail(request, card_id):
         start_of_cards = False
         end_of_cards = False
         
-        if current_i == 0:
+        if current_i == 0: # start of cards so no card before
             start_of_cards = True
             previous_id = None
             next_id = cards[current_i+1].id
 
-        if current_i == num_cards - 1:
+        if current_i == num_cards - 1: # last card so no more cards afterwards
             end_of_cards = True
             previous_id = cards[current_i-1].id
             next_id = None
         
-        elif current_i != 0:
+        elif current_i != 0: # card in the middle
             previous_id = cards[current_i-1].id
             next_id = cards[current_i+1].id
 
     except Card.DoesNotExist:
         raise Http404("Question does not exist")
+
     return render(request, 'card_detail.html',
     {'card': card, 'num_of_cards':num_cards,
     'previous_id': previous_id, 'next_id': next_id,
@@ -62,6 +66,7 @@ def card_detail(request, card_id):
 class CardCreateView(CreateView):
     model = Card
     fields = ["question", "answer",] # fields for the form
+    
     # after form successfully completed, return to creating more cards
     success_url = reverse_lazy("create_card") 
 
@@ -93,6 +98,7 @@ class CardDeleteView(DeleteView): #looks for card_confirm_delete.html
         context['current_id'] = self.object.pk
         return context
 
+    # return to previous card
     def get_success_url(self):
         card = self.object
         cards = Card.objects.all()

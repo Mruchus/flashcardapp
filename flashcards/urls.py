@@ -8,6 +8,7 @@ urlpatterns = [
 
     # card views
     path('cards/', views.display_cards, name='display_cards'),
+    # view individual cards
     path('flashcard/<int:card_id>/', views.card_detail, name='display_card'),
 
     # dynamic views
