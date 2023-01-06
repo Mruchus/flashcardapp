@@ -17,6 +17,13 @@ urlpatterns = [
     path("edit/<int:pk>",views.CardUpdateView.as_view(),name="card_update"),
     path("delete/<int:pk>",views.CardDeleteView.as_view(),name="card_delete"),
 
- 
+    # review pages
+    # start review
+    path("review/",views.review,name="review"), 
+    # review individual cards
+
+    # finish reviewing a card
+
+
 ]
 # 'name' can be used later to refer specific views

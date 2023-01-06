@@ -1,0 +1,24 @@
+{% block extrascripts %}
+<!-- Include the mathlive library -->
+<script type="module" src="//unpkg.com/mathlive">
+    import 'mathlive';
+</script>
+
+{% endblock extrascripts %}
+
+
+<h>Start Review</h>
+<br>
+
+<div>
+    <math-field style="font-size: 32px;" read-only style="display:inline-block">
+        {{ card.question }}
+    </math-field>
+            
+    <math-field style="font-size: 32px;" read-only style="display:inline-block">
+        {{ card.answer }}
+    </math-field>
+    <br>
+</div>
+
+
