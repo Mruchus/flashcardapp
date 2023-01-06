@@ -26,8 +26,8 @@ def display_cards(request):
     return render(request, 'cards.html', {'cards': cards}) # renders using the cards template
 
 def home(request):
-    card_id = Card.objects.all().first().id
-    return render(request, 'home.html', {'card_id': card_id})
+    first_id = Card.objects.all().first().id
+    return render(request, 'home.html', {'first_id': first_id})
 
 
 def card_detail(request, card_id):
@@ -66,7 +66,7 @@ def card_detail(request, card_id):
     return render(request, 'card_detail.html',
     {'card': card, 'num_of_cards':num_cards,
     'previous_id': previous_id, 'next_id': next_id,
-    'start_of_cards': start_of_cards, 'end_of_cards': end_of_cards})
+    'start_of_cards': start_of_cards, 'end_of_cards': end_of_cards,})
 
 # form to add new flashcards
 class CardCreateView(CreateView):
