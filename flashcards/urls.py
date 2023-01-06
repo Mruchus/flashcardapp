@@ -6,6 +6,9 @@ urlpatterns = [
     path('hello/', views.hello, name='hello'),
     path('text-file/', views.display_text_file, name='display_text_file'),
 
+    # home page
+    path('home/', views.home, name='home'),
+
     # card views
     path('cards/', views.display_cards, name='display_cards'),
     # view individual cards
@@ -19,9 +22,6 @@ urlpatterns = [
 
     # review page - start review
     path("review/",views.review,name="review"), 
-    # review individual card
-
-    # finish reviewing a card
 
 ]
 # 'name' can be used later to refer specific views

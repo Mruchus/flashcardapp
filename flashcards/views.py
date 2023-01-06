@@ -13,7 +13,6 @@ from django.views.generic import (
 
 # class-based view -> allows you to display a list or detail page for a model
 
-
 def hello(request):
     return HttpResponse("Hello, World!")
 
@@ -25,6 +24,11 @@ def display_text_file(request):
 def display_cards(request):
     cards = Card.objects.all() # retrieves all the Card obejcts from the database
     return render(request, 'cards.html', {'cards': cards}) # renders using the cards template
+
+def home(request):
+    card_id = Card.objects.all().first().id
+    return render(request, 'home.html', {'card_id': card_id})
+
 
 def card_detail(request, card_id):
     num_cards = Card.objects.count()
@@ -116,12 +120,6 @@ class CardDeleteView(DeleteView): #looks for card_confirm_delete.html
 # determine which flashcards need to be reviewed
 def review(request):
 
-    # Query the database for all flashcards that have a review scheduled for today or earlier
-    # flashcard_to_review = Card.objects.annotate(
-    # latest_review=Max('review__scheduled')).filter( # get lastest scheduled for each card
-    #     review__scheduled__lte=timezone.now() # get cards with review time earlier than now
-    # ).order_by('review__scheduled').first() # get the first card
-
     # after finish review
     if request.method == 'POST':
         review_id = request.POST.get('review_id','')
@@ -161,28 +159,5 @@ def review(request):
         
         # Render the review template, passing in the flashcards to review
         return render(request, 'review.html', {'card': flashcard, 'review': earliest_scheduled_review})
-
-def finish_review(request, card_id):
-    # Get the flashcard being reviewed (faster function than try and except)
-    flashcard = get_object_or_404(Card, pk=card_id)
-
-    # Check if the user got the flashcard correct
-    break_time = request.POST.get('break_time')
-
-    # Create a new Review instance with the current date and result
-    review = Review(flashcard=flashcard, time=timezone.now(), result=break_time)
-    review.save()
-
-    # Schedule the next review 
-    if break_time == 1: # schedule review for next minute
-        flashcard.review.date = timezone.now() + timezone.timedelta(minutes=1)
-    elif break_time == 10: # schedule for in 10 mins
-        flashcard.review.date = timezone.now() + timezone.timedelta(minutes=10)
-    else: # scedule for in 4 days
-        flashcard.review.date = timezone.now() + timezone.timedelta(days=4)
-    flashcard.save()
-
-    # Redirect the user back to the review page
-    return redirect('review')
 
 
