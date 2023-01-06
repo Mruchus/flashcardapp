@@ -22,8 +22,8 @@ class Review(models.Model):
     # time finished
     completed = models.DateTimeField(blank=True, null=True)
 
-# header for when appearing in the database
-def __str__(self) -> str:
-        return f'Review({self.scheduled}, {self.started}, {self.completed})'
+    # header for when appearing in the database
+    def __str__(self) -> str:
+            return f'Review({self.flashcard},{self.scheduled}, {self.started}, {self.completed})'
 
 

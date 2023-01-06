@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Max
 from django import forms
 from django.http import HttpResponse, Http404
 from .models import Card, Review
@@ -112,18 +113,54 @@ class CardDeleteView(DeleteView): #looks for card_confirm_delete.html
 
         return reverse_lazy('display_card', kwargs={'card_id': previous_id}) # gets the id of the previous card
 
-
 # determine which flashcards need to be reviewed
 def review(request):
+
     # Query the database for all flashcards that have a review scheduled for today or earlier
-    flashcard_to_review = Card.objects.filter(
-        review__scheduled__lte=timezone.now() # get cards with review time earlier than now
-    ).order_by('review__scheduled').first() # get the first card
+    # flashcard_to_review = Card.objects.annotate(
+    # latest_review=Max('review__scheduled')).filter( # get lastest scheduled for each card
+    #     review__scheduled__lte=timezone.now() # get cards with review time earlier than now
+    # ).order_by('review__scheduled').first() # get the first card
 
-    # Render the review template, passing in the flashcards to review
-    return render(request, 'review.html',
-     {'card': flashcard_to_review})
+    # after finish review
+    if request.method == 'POST':
+        review_id = request.POST.get('review_id','')
+        review = Review.objects.get(pk=review_id)
+        
+        # Get the current time
+        now = timezone.now()
+        review.completed = now
+        review.save()
 
+        new_scheduled = None
+        # Update the scheduled time based on which button was clicked
+        if 'one' in request.POST:
+            print('one')
+            new_scheduled = now + timezone.timedelta(minutes=1)
+        elif 'ten' in request.POST:
+            print('ten')
+            new_scheduled = now + timezone.timedelta(minutes=10)
+        elif 'four' in request.POST:
+            print('four')
+            new_scheduled = now + timezone.timedelta(days=4)  # approximately one month
+
+        # Update the object in the database
+        review = Review.objects.create(flashcard=review.flashcard, scheduled=new_scheduled)
+        review.save()
+
+        # finish one card move onto the next
+        return redirect('review')
+
+    else: # GET 
+        earliest_scheduled_review = Review.objects.filter(completed__isnull=True).order_by('scheduled').first()
+        flashcard = earliest_scheduled_review.flashcard
+        
+        #maybe don't need this, just have completed
+        earliest_scheduled_review.started = timezone.now()
+        earliest_scheduled_review.save()
+        
+        # Render the review template, passing in the flashcards to review
+        return render(request, 'review.html', {'card': flashcard, 'review': earliest_scheduled_review})
 
 def finish_review(request, card_id):
     # Get the flashcard being reviewed (faster function than try and except)

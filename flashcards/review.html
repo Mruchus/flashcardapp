@@ -6,10 +6,6 @@
 
 {% endblock extrascripts %}
 
-
-<h>Start Review</h>
-<br>
-
 <div>
     <math-field style="font-size: 32px;" read-only style="display:inline-block">
         {{ card.question }}
@@ -20,5 +16,14 @@
     </math-field>
     <br>
 </div>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="review_id" value="{{ review.id }}"/>
+    <button type="submit" name="one">1 MIN</button>
+    <button type="submit" name="ten">10 MINS</button>
+    <button type="submit" name="four">4 DAYS</button>
+</form>
 
 

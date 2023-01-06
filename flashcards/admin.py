@@ -7,6 +7,7 @@ from .models import Card, Review
 class CardAdmin(admin.ModelAdmin):
     pass
 
+# register review moel
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     pass
