@@ -28,42 +28,53 @@
     );
 </script>
 
+<style type="text/css">
+    .brmedium {
+        display: block;
+        margin-bottom: 0.5em;
+    }
+</style>
+
 {% endblock extrascripts %} 
 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
 <!-- library of cards-->
-<a href="{% url 'home' %}">Return to Card Library</a>
+<a href="{% url 'home' %}" class="rounded-corner-link-small">Return to Card Library</a>
 
-<math-field style="font-size: 32px;" read-only style="display:inline-block">
-{{ card.question }}
-</math-field>
+<!-- contents of card in box-->
 
-<math-field style="font-size: 32px;" read-only style="display:inline-block">
-{{ card.answer }}
-</math-field>
+<div class="card">
+    <math-field style="font-size: 32px;" read-only style="display:inline-block">
+    {{ card.question }}
+    </math-field>
+
+    <br>
+
+    <math-field style="font-size: 32px;" read-only style="display:inline-block">
+    {{ card.answer }}
+    </math-field>
+</div>
 
 <!-- option to update card-->
-<a href="{% url 'card_update' card.id %}" role="button">
-    Edit
-</a>
+<a href="{% url 'card_update' card.id %}" class="rounded-corner-link-small-r" role="button">Edit</a>
 
 <!-- not allow to step backwards from the first card -->
 {% if not start_of_cards %}
 <!-- option to delete card -->
-| <a href="{% url 'card_delete' card.id %}" role="button">
-    Delete
-</a>
-<br>
-<br>
-<a href="{% url 'display_card' previous_id %}">Previous</a>
+<a href="{% url 'card_delete' card.id %}" class="rounded-corner-link-small-r" role="button">Delete</a>
+<span class="brmedium"></span> 
+
+<a href="{% url 'display_card' previous_id %}" class="rounded-corner-link-small-y">Previous</a>
 {% endif %}
 
 <!-- reach end of cards so can add more cards -->
 {% if end_of_cards %}
-| <a href="{% url 'create_card' %}">Create Card</a>
+ <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r" >Create Card</a>
 {% endif %}
 
 <!-- if not reach the end of the cards yet-->
 {% if not end_of_cards %}
-| <a href="{% url 'display_card' next_id %}">Next</a>
+ <a href="{% url 'display_card' next_id %}" class="rounded-corner-link-small-y" >Next</a>
 {% endif %}

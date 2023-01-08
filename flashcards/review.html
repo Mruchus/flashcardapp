@@ -6,10 +6,17 @@
 
 {% endblock extrascripts %}
 
-<!-- library of cards-->
-<a href="{% url 'home' %}">Return to Card Library</a>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
-<div>
+<!-- library of cards-->
+<a href="{% url 'home' %}" class="rounded-corner-link-small" >Return to Card Library</a>
+
+<br>
+<H class="title">Start Review</H>
+<br>
+
+<div class="card">
     <math-field style="font-size: 32px;" read-only style="display:inline-block">
         {{ card.question }}
     </math-field>
@@ -18,7 +25,6 @@
         {{ card.answer }}
     </math-field>
     <br>
-</div>
 
 <form method="post">
     {% csrf_token %}
@@ -29,4 +35,5 @@
     <button type="submit" name="four">4 DAYS</button>
 </form>
 
+</div>
 

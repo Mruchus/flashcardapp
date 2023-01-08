@@ -127,6 +127,7 @@ def review(request):
         
         # Get the current time
         now = timezone.now()
+        # set the time of completion
         review.completed = now
         review.save()
 
@@ -150,10 +151,11 @@ def review(request):
         return redirect('review')
 
     else: # GET 
+        # is NOT completed, order by earliest date, get first queue
         earliest_scheduled_review = Review.objects.filter(completed__isnull=True).order_by('scheduled').first()
         flashcard = earliest_scheduled_review.flashcard
         
-        #maybe don't need this, just have completed
+        # set the start time 
         earliest_scheduled_review.started = timezone.now()
         earliest_scheduled_review.save()
         

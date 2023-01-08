@@ -21,10 +21,13 @@
 
 {% endblock extrascripts %}
 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
 {% block content %}
     {% if card %}
         <!-- template recieves card data so should be in the edit view -->
-        <h2>✏️ Edit Card</h2>
+        <h2>Edit Card</h2>
     {% else %}
         <h2> Create New Card</h2>
     {% endif %}
@@ -67,10 +70,10 @@
     </script>
     
     <!-- go to card just created-->
-    <a href="{% url 'display_card' last_id %}">Previous</a>
+    <a href="{% url 'display_card' last_id %}" class="rounded-corner-link-small-y">Previous</a>
 
     <!-- reach end of cards so can add more cards -->
-    |<a href="{% url 'create_card' %}">Create Card</a>
+    <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r">Create Card</a>
 
 {% endblock %}
 
