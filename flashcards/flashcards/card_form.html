@@ -28,28 +28,29 @@
 {% block content %}
     {% if card %}
         <!-- template recieves card data so should be in the edit view -->
-        <h2>Edit Card</h2>
+        <h2 style="margin-block-start: 0.2em; margin-block-end: -1em; margin-left: 20px;">Edit Card</h2>
     {% else %}
         <h2> Create New Card</h2>
     {% endif %}
     
     <form method="post">
         {% csrf_token %}
-        
-        <label>Question:</label>
-        <math-field id="question_formula" name="question" virtual-keyboard-mode="manual"
-         role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.question.value }}
-        </math-field>
-        <input name="question" type="hidden" id="id_question"></input>
-        <br>
+        <div class="card">
+            <label>Front:</label>
+            <math-field id="question_formula" name="question" virtual-keyboard-mode="manual"
+            role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.question.value }}
+            </math-field>
+            <input name="question" type="hidden" id="id_question"></input>
+            <br>
 
-        <label>Answer:</label>
-        <math-field id="answer_formula" name="answer" virtual-keyboard-mode="manual"
-         role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.answer.value }}
-        </math-field>
-        <input name="answer" type="hidden" id="id_answer"></input>
-        
-        <input type="submit" class="rounded-corner-link-small" value="S a v e &nbsp; C a r d">
+            <label>Back:</label>
+            <math-field id="answer_formula" name="answer" virtual-keyboard-mode="manual"
+            role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.answer.value }}
+            </math-field>
+            <input name="answer" type="hidden" id="id_answer"></input>
+            </div>
+            <input type="submit" class="rounded-corner-link-small" value="S a v e &nbsp; C a r d">
+            <br>
       </form>
 
       <script>
@@ -70,16 +71,17 @@
         document.getElementById('id_answer').value = answer_mf.innerText; // get new value and display
     </script>
     
-    <!-- go to card just created-->
-    {% if current_id %}
-        <a href="{% url 'display_card' current_id %}" class="rounded-corner-link-small-y">Previous</a>
-    {% elif last_id %}
-        <a href="{% url 'display_card' last_id %}" class="rounded-corner-link-small-y">Previous</a>
-    {% endif %}
+    <div class="buttons-r1" style="margin-top: 10px;">
+        <!-- go to card just created-->
+        {% if current_id %}
+            <a href="{% url 'display_card' current_id %}" class="rounded-corner-link-small-y">Previous</a>
+        {% elif last_id %}
+            <a href="{% url 'display_card' last_id %}" class="rounded-corner-link-small-y">Previous</a>
+        {% endif %}
 
-
-    <!-- reach end of cards so can add more cards -->
-    <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r">Create Card</a>
+        <!-- reach end of cards so can add more cards -->
+        <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r">Create Card</a>
+    </div>
 
 {% endblock %}
 

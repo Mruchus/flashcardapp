@@ -35,7 +35,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
 <!-- library of cards-->
-<a href="{% url 'home' %}" class="rounded-corner-link-small"> Return to Card Library</a>
+<a href="{% url 'home' %}" style="margin-bottom: -2em;" class="rounded-corner-link-small"> Return to Card Library</a>
 
 <!-- contents of card in box-->
 
@@ -51,24 +51,28 @@
     </math-field>
 </div>
 
-<!-- option to update card-->
-<a href="{% url 'card_update' card.id %}" class="rounded-corner-link-small-r" role="button">Edit</a>
+<div class ="buttons-r1">
+    <!-- option to update card-->
+    <a href="{% url 'card_update' card.id %}" class="rounded-corner-link-small-r" role="button">Edit</a>
 
-<!-- not allow to step backwards from the first card -->
-{% if not start_of_cards %}
-<!-- option to delete card -->
-<a href="{% url 'card_delete' card.id %}" class="rounded-corner-link-small-r" role="button">Delete</a>
-<span class="brmedium"></span> 
+    <!-- not allow to step backwards from the first card -->
+    {% if not start_of_cards %}
+    <!-- option to delete card -->
+    <a href="{% url 'card_delete' card.id %}" class="rounded-corner-link-small-r" role="button">Delete</a>
+    <span class="brmedium"></span> 
+</div>
 
-<a href="{% url 'display_card' previous_id %}" class="rounded-corner-link-small-y">Previous</a>
-{% endif %}
+<div class="buttons-r2">
+    <a href="{% url 'display_card' previous_id %}" class="rounded-corner-link-small-y">Previous</a>
+    {% endif %}
 
-<!-- reach end of cards so can add more cards -->
-{% if end_of_cards %}
- <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r" >Create Card</a>
-{% endif %}
+    <!-- reach end of cards so can add more cards -->
+    {% if end_of_cards %}
+    <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r" >Create Card</a>
+    {% endif %}
 
-<!-- if not reach the end of the cards yet-->
-{% if not end_of_cards %}
- <a href="{% url 'display_card' next_id %}" class="rounded-corner-link-small-y" >Next</a>
-{% endif %}
+    <!-- if not reach the end of the cards yet-->
+    {% if not end_of_cards %}
+    <a href="{% url 'display_card' next_id %}" class="rounded-corner-link-small-y" >Next</a>
+    {% endif %}
+</div>

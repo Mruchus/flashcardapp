@@ -20,10 +20,11 @@ body {
 
 .card {
   /* position */
-  position: absolute;
-  bottom: -30%;
+  position: relative;
+  bottom: -30%; /* above bottom */
   left: 50%;
-  transform: translate(-50%, -50%);
+  /* centre */
+  transform: translate(-50%, -40%);
 
   /* size */
   width: 70%; 
@@ -31,17 +32,36 @@ body {
   min-width: 500px;
   min-height: 300px;
 
-
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
   padding: 20px;
-  margin-bottom: 100px;
+  margin-top: 300px;
+
+  /* typography */
+  font-size: 30px;
+  line-height: 190%;
 
   /* display contents */
   display: flex;
   flex-direction: column;
+  /* assign child elements centered*/
   align-items: center;
+  z-index: 1;
+}
+
+.buttons-r1 {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  z-index: 2
+}
+
+.buttons-r2 {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  z-index: 3
 }
 
 /* page link buttons */
