@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!-- default template file name expected by the generic class-based detail view -->
 {% block extrascripts %}
 <script>
@@ -28,20 +29,13 @@
     );
 </script>
 
-<style type="text/css">
-    .brmedium {
-        display: block;
-        margin-bottom: 0.5em;
-    }
-</style>
-
 {% endblock extrascripts %} 
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
 <!-- library of cards-->
-<a href="{% url 'home' %}" class="rounded-corner-link-small">Return to Card Library</a>
+<a href="{% url 'home' %}" class="rounded-corner-link-small"> Return to Card Library</a>
 
 <!-- contents of card in box-->
 

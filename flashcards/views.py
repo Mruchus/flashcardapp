@@ -91,6 +91,14 @@ class CardUpdateView(CardCreateView, UpdateView):
     # speicify what template to use when rendering the view
     template_name = 'flashcards/card_form.html'
 
+    def get_context_data(self, **kwargs): 
+        'add additional context variables to the template context'
+        context = super().get_context_data(**kwargs) # get the default context data from the parent class
+
+        # get the id of current editing card
+        context['current_id'] = self.object.pk
+        return context
+
     def get_success_url(self):
         return reverse_lazy('display_card', kwargs={'card_id': self.object.pk}) # gets the id of the current card
 

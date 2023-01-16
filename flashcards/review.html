@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% block extrascripts %}
 <!-- Include the mathlive library -->
 <script type="module" src="//unpkg.com/mathlive">
@@ -30,9 +31,9 @@
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="review_id" value="{{ review.id }}"/>
-    <button type="submit" name="one">1 MIN</button>
-    <button type="submit" name="ten">10 MINS</button>
-    <button type="submit" name="four">4 DAYS</button>
+    <button type="submit" class="red-button" name="one" >1 &nbsp; m i n</button>
+    <button type="submit" class="yellow-button" name="ten">1 0 &nbsp; m i n s</button>
+    <button type="submit" class="green-button" name="four">4 &nbsp; d a y s</button>
 </form>
 
 </div>

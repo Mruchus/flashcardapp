@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!-- default template file name expected by the generic class-based detail view -->
 {% block extrascripts %}
 <script>
@@ -48,7 +49,7 @@
         </math-field>
         <input name="answer" type="hidden" id="id_answer"></input>
         
-        <input type="submit" value="Save Card">
+        <input type="submit" class="rounded-corner-link-small" value="S a v e &nbsp; C a r d">
       </form>
 
       <script>
@@ -70,7 +71,12 @@
     </script>
     
     <!-- go to card just created-->
-    <a href="{% url 'display_card' last_id %}" class="rounded-corner-link-small-y">Previous</a>
+    {% if current_id %}
+        <a href="{% url 'display_card' current_id %}" class="rounded-corner-link-small-y">Previous</a>
+    {% elif last_id %}
+        <a href="{% url 'display_card' last_id %}" class="rounded-corner-link-small-y">Previous</a>
+    {% endif %}
+
 
     <!-- reach end of cards so can add more cards -->
     <a href="{% url 'create_card' %}" class="rounded-corner-link-small-r">Create Card</a>
