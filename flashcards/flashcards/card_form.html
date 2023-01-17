@@ -30,7 +30,7 @@
         <!-- template recieves card data so should be in the edit view -->
         <h2 style="margin-block-start: 0.2em; margin-block-end: -1em; margin-left: 20px;">Edit Card</h2>
     {% else %}
-        <h2> Create New Card</h2>
+        <h2 style="margin-block-start: 0.2em; margin-block-end: -1em; margin-left: 20px;"> Create New Card</h2>
     {% endif %}
     
     <form method="post">
@@ -42,15 +42,14 @@
             </math-field>
             <input name="question" type="hidden" id="id_question"></input>
             <br>
-
-            <label>Back:</label>
-            <math-field id="answer_formula" name="answer" virtual-keyboard-mode="manual"
-            role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.answer.value }}
-            </math-field>
-            <input name="answer" type="hidden" id="id_answer"></input>
-            </div>
-            <input type="submit" class="rounded-corner-link-small" value="S a v e &nbsp; C a r d">
-            <br>
+                <label>Back:</label>
+                <math-field id="answer_formula" name="answer" virtual-keyboard-mode="manual"
+                role="textbox" dir="ltr" aria-label="math input field" contenteditable="true" aria-multiline="false" tabindex="0">{{ form.answer.value }}
+                </math-field>
+                <input name="answer" type="hidden" id="id_answer"></input>
+        </div>
+        <input type="submit" class="rounded-corner-link-small" value="S a v e &nbsp; C a r d">
+        <br>
       </form>
 
       <script>

@@ -3,8 +3,10 @@
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
 {% block content %}
-    <h2>Delete Card</h2>
+    <h2 style="margin-block-start: 0.2em; margin-left: 20px;" >Delete Card</h2>
+    <div style="margin: 20px;">
     <p>Are you sure you want to delete this card?</p>
+    </div>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
