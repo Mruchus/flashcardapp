@@ -2,9 +2,14 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
+<header>
+    <p class="header">Happy Studying @username!</p>
+</header>
+
+<div class="home-display">
 <!-- library of cards-->
 <a href="{% url 'display_card' first_id %}" class="rounded-corner-link">Card Library</a>
 
 <!-- reach end of cards so can add more cards -->
 <a href="{% url 'review' %}" class="rounded-corner-link">Review Cards</a>
-
+</div>

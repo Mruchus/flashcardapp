@@ -7,10 +7,35 @@ body {
     letter-spacing: 0.12em;
   }
 
+/* Create two columns/boxes that floats next to each other */
+.home-display {
+  float: left;
+  width: 60%;
+  background: #ccc;
+  padding: 20px;
+  margin: 0% 0% 0% -1%;
+
+  display: block;
+}
+
+.header {
+  background-color: #E34D4F;
+  padding: 20px 30px 20px 30px;
+  /* fill entire screen */
+  margin: -1% -1% 0% -1%;
+
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  color: #FFFFFF;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+}
+
 .title {
   position: absolute;
   margin: 10px;
-  left: 37%;
+  left: 41%;
   display: block;
   padding-top: 0.5em;
   padding-right: 0.5em;
@@ -184,4 +209,3 @@ body {
   padding: 10px 20px;
   margin: 0 10px;
 }
-
