@@ -1,4 +1,11 @@
 <!-- home -->
+{% block extrascripts %}
+<!-- Include the mathlive library -->
+<script type="module" src="//unpkg.com/mathlive">
+    import 'mathlive';
+</script>
+{% endblock extrascripts %}
+
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
@@ -7,9 +14,42 @@
 </header>
 
 <div class="home-display">
+
+
 <!-- library of cards-->
-<a href="{% url 'display_card' first_id %}" class="rounded-corner-link">Card Library</a>
+<a href="{% url 'display_card' first_id %}" id="mouse1" class="rounded-corner-link" onmouseover="mouseOver1()" onmouseout="mouseOut1()" style="opacity: 100%;">Card Library</a>
+    <div class="mini-card">
+        <math-field style="font-size: 20px; font-weight: bold;" read-only style="display:inline-block">
+        {{ card.question }}
+        </math-field>
+
+        <br>
+
+        <math-field style="font-size: 20px;" read-only style="display:inline-block">
+        {{ card.answer }}
+        </math-field>
+    </div>
 
 <!-- reach end of cards so can add more cards -->
-<a href="{% url 'review' %}" class="rounded-corner-link">Review Cards</a>
+<a href="{% url 'review' %}" id="mouse2" class="rounded-corner-link" onmouseover="mouseOver2()" onmouseout="mouseOut2()" style="opacity: 100%;">Review Cards ►</a>
+
 </div>
+
+<script>
+    function mouseOver1() {
+        document.getElementById('mouse1').style.opacity = "80%";
+    }
+    function mouseOut1() {
+        document.getElementById("mouse1").style.opacity = "100%";
+    }   
+
+    function mouseOver2() {
+        document.getElementById('mouse2').style.opacity = "80%";
+    }
+    function mouseOut2() {
+        document.getElementById("mouse2").style.opacity = "100%";
+    }   
+
+</script>
+
+

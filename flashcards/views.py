@@ -27,8 +27,8 @@ def display_cards(request):
 
 def home(request):
     first_id = Card.objects.all().first().id
-    return render(request, 'home.html', {'first_id': first_id})
-
+    card = Card.objects.get(pk=first_id)
+    return render(request, 'home.html', {'first_id': first_id, 'card': card})
 
 def card_detail(request, card_id):
     num_cards = Card.objects.count()

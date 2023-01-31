@@ -11,7 +11,7 @@ body {
 .home-display {
   float: left;
   width: 60%;
-  background: #ccc;
+  background: #F5F5F5;
   padding: 20px;
   margin: 0% 0% 0% -1%;
 
@@ -75,6 +75,30 @@ body {
   z-index: 1;
 }
 
+.mini-card {
+  /* typography */
+  line-height: 60%;
+  word-wrap: normal;
+
+  /* size */
+  width: 40%; 
+  height: 15%;
+  min-width: 100px;
+  min-height: 50px;
+
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  padding: 20px 0px 20px 0px;
+
+  /* display contents */
+  display: flex;
+  flex-direction: column;
+  /* assign child elements centered*/
+  align-items: center;
+  z-index: 1;
+}
+
 .buttons-r1 {
   position: relative;
   display: flex;
@@ -100,7 +124,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid black;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   margin: 20px 20px;
@@ -117,7 +140,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid #022F46;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   padding: 10px 10px 10px 10px;
@@ -134,7 +156,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid #FDA959;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   padding: 10px 10px 10px 10px;
@@ -151,7 +172,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid #C23D2A;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   padding: 10px 10px 10px 10px;
@@ -169,7 +189,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid #52B938;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   padding: 10px 20px;
@@ -186,7 +205,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid #E3DD3A;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   padding: 10px 20px;
@@ -203,7 +221,6 @@ body {
   color: #FFFFFF;
   text-decoration: none;
 
-  border: 1px solid #D63838;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   padding: 10px 20px;
