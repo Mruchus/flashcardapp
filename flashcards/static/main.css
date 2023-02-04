@@ -78,18 +78,18 @@ body {
 .mini-card {
   /* typography */
   line-height: 60%;
-  word-wrap: normal;
 
   /* size */
   width: 40%; 
   height: 15%;
-  min-width: 100px;
-  min-height: 50px;
+  min-width: 250px;
+  min-height: 100px;
 
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
   padding: 20px 0px 20px 0px;
+  margin: 10px;
 
   /* display contents */
   display: flex;
@@ -97,6 +97,7 @@ body {
   /* assign child elements centered*/
   align-items: center;
   z-index: 1;
+
 }
 
 .buttons-r1 {
@@ -126,6 +127,7 @@ body {
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
+  border: 1px solid #022F46;
   margin: 20px 20px;
   padding: 20px 40px;
 }
@@ -142,6 +144,7 @@ body {
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
+  border: 1px solid #022F46;
   padding: 10px 10px 10px 10px;
   margin: 10px 20px;
 }
@@ -174,6 +177,7 @@ body {
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
+  border: 1px solid #C23D2A;
   padding: 10px 10px 10px 10px;
   margin: 10px 20px;
 }
@@ -191,6 +195,7 @@ body {
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
+  border: 1px solid #52B938;
   padding: 10px 20px;
   margin: 0 10px;
 }
@@ -207,6 +212,7 @@ body {
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
+  border: 1px solid #E3DD3A;
   padding: 10px 20px;
   margin: 0 10px;
 }
@@ -222,7 +228,7 @@ body {
   text-decoration: none;
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid #D63838;
   border-radius: 23px;
   padding: 10px 20px;
-  margin: 0 10px;
 }

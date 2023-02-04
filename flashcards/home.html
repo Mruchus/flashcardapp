@@ -1,5 +1,16 @@
 <!-- home -->
 {% block extrascripts %}
+<script>
+    MathJax = {
+        tex: {
+            <!--configure the TeX input component to use single dollar signs as in-line math delimiters-->
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    }
+</script>
 <!-- Include the mathlive library -->
 <script type="module" src="//unpkg.com/mathlive">
     import 'mathlive';
@@ -17,21 +28,29 @@
 
 
 <!-- library of cards-->
-<a href="{% url 'display_card' first_id %}" id="mouse1" class="rounded-corner-link" onmouseover="mouseOver1()" onmouseout="mouseOut1()" style="opacity: 100%;">Card Library</a>
-    <div class="mini-card">
-        <math-field style="font-size: 20px; font-weight: bold;" read-only style="display:inline-block">
-        {{ card.question }}
-        </math-field>
+<a href="{% url 'display_card' first_id %}" id="mouse1" class="rounded-corner-link" onmouseover="mouseOver1()" onmouseout="mouseOut1()" 
+style="opacity: 100%;">Card Library</a>
 
-        <br>
+    <div style="display: flex;">
+        <!-- get last three cards -->
+        {% for card in cards|slice:":3" %} 
+            <div class="mini-card">
+                <math-field style="font-size: 20px; font-weight: bold; word-wrap: break-word; width: 80%;" read-only style="display:inline-block">
+                {{ card.question }}
+                </math-field>
+                <br>
 
-        <math-field style="font-size: 20px;" read-only style="display:inline-block">
-        {{ card.answer }}
-        </math-field>
+                <math-field style="font-size: 20px; word-wrap: break-word; width: 80%;" read-only style="display:inline-block">
+                {{ card.answer }}
+                </math-field>
+            </div>
+        {% endfor %}
+
     </div>
 
 <!-- reach end of cards so can add more cards -->
-<a href="{% url 'review' %}" id="mouse2" class="rounded-corner-link" onmouseover="mouseOver2()" onmouseout="mouseOut2()" style="opacity: 100%;">Review Cards ►</a>
+<a href="{% url 'review' %}" id="mouse2" class="rounded-corner-link" onmouseover="mouseOver2()" onmouseout="mouseOut2()" 
+style="opacity: 100%;">Review Cards ►</a>
 
 </div>
 
