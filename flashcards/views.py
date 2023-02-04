@@ -5,13 +5,20 @@ from django.http import HttpResponse, Http404
 from .models import Card, Review
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.contrib.auth import logout, authenticate, login
+
 from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView
 )
 
+from .forms import LoginForm
+
 # class-based view -> allows you to display a list or detail page for a model
+
+def logout_view(request):    
+    logout(request)
 
 def hello(request):
     return HttpResponse("Hello, World!")
@@ -25,10 +32,29 @@ def display_cards(request):
     cards = Card.objects.all() # retrieves all the Card obejcts from the database
     return render(request, 'cards.html', {'cards': cards}) # renders using the cards template
 
-def home(request):
-    first_id = Card.objects.all().first().id
-    cards = Card.objects.order_by('-id')[:3]
-    return render(request, 'home.html', {'first_id': first_id, 'cards' : cards})
+
+def login_view(request):
+    if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+    else:
+        login_form = LoginForm()
+        return render(request, 'login.html', {'form': login_form})
+
+def home(request):    
+    if request.user.is_authenticated:   
+        print('User', request.user) 
+        first_id = Card.objects.all().first().id
+        cards = Card.objects.order_by('-id')[:3]
+        return render(request, 'home.html', {'first_id': first_id, 'cards' : cards, 'user': request.user})
+    else:
+        return redirect('login')
 
 def card_detail(request, card_id):
     num_cards = Card.objects.count()

@@ -8,6 +8,7 @@ urlpatterns = [
 
     # home page
     path('home/', views.home, name='home'),
+    path('login/', views.login_view, name='login'),
 
     # card views
     path('cards/', views.display_cards, name='display_cards'),
@@ -22,6 +23,8 @@ urlpatterns = [
 
     # review page - start review
     path("review/",views.review,name="review"), 
+
+    path("logout", views.logout_view, name="logout")    
 
 ]
 # 'name' can be used later to refer specific views
