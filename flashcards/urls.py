@@ -9,6 +9,9 @@ urlpatterns = [
     # home page
     path('home/', views.home, name='home'),
     path('login/', views.login_view, name='login'),
+    # login view but with success message
+    path("logout/", views.login_view, name="logout"),   
+    path('signup/', views.signup, name='signup'),
 
     # card views
     path('cards/', views.display_cards, name='display_cards'),
@@ -22,9 +25,7 @@ urlpatterns = [
     path("delete/<int:pk>",views.CardDeleteView.as_view(),name="card_delete"),
 
     # review page - start review
-    path("review/",views.review,name="review"), 
-
-    path("logout", views.logout_view, name="logout")    
+    path("review/",views.review,name="review")
 
 ]
 # 'name' can be used later to refer specific views

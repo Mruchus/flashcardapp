@@ -6,6 +6,7 @@ from .models import Card, Review
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 
 from django.views.generic import (
     CreateView,
@@ -32,28 +33,57 @@ def display_cards(request):
     cards = Card.objects.all() # retrieves all the Card obejcts from the database
     return render(request, 'cards.html', {'cards': cards}) # renders using the cards template
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            # sucess
+            return redirect('home')
+    else:
+        # retry with error message
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
+            failed = False
+            # populate form fields
             form = LoginForm(request.POST)
             if form.is_valid():
                 username = form.cleaned_data.get('username')
                 password = form.cleaned_data.get('password')
+                # check for correct username password combination
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
+                    # user found
                     login(request, user)
                     return redirect('home')
+                else:
+                    login_form = LoginForm()
+                    failed = True
+                    return render(request, 'login.html', {'form': login_form, 'failed': failed})
     else:
+        # render login page if failed
+        failed = False
         login_form = LoginForm()
-        return render(request, 'login.html', {'form': login_form})
+        return render(request, 'login.html', {'form': login_form, 'failed': failed})
 
 def home(request):    
+    # already signed in
     if request.user.is_authenticated:   
         print('User', request.user) 
         first_id = Card.objects.all().first().id
+        # get last three cards
         cards = Card.objects.order_by('-id')[:3]
         return render(request, 'home.html', {'first_id': first_id, 'cards' : cards, 'user': request.user})
     else:
+        # go to login page to sign in
         return redirect('login')
 
 def card_detail(request, card_id):
@@ -195,5 +225,3 @@ def review(request):
         
         # Render the review template, passing in the flashcards to review
         return render(request, 'review.html', {'card': flashcard, 'review': earliest_scheduled_review})
-
-

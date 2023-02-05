@@ -20,8 +20,9 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
-<header>
-    <p class="header">Happy Studying @{{ user.username }}!</p>
+<header style="display: flex" class="header">
+    <p>Happy Studying @{{ user.username }}!</p> 
+    <p style="position: absolute; right: 25px;"><a href="{% url 'logout' %}">Log Out</a></p>
 </header>
 
 <div class="home-display">
