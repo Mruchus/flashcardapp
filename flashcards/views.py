@@ -14,7 +14,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from .forms import LoginForm
+from .forms import LoginForm, NewUserForm
 
 # class-based view -> allows you to display a list or detail page for a model
 
@@ -35,7 +35,7 @@ def display_cards(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = NewUserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -46,7 +46,7 @@ def signup(request):
             return redirect('home')
     else:
         # retry with error message
-        form = UserCreationForm()
+        form = NewUserForm()
     return render(request, 'signup.html', {'form': form})
 
 
