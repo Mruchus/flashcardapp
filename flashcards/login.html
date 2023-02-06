@@ -5,19 +5,23 @@
 {% block content %}
 
 {% if request.path == "/logout/" %}
-  <p>Logout Successful.</p>
+  <p style="padding: 20px 30px 20px 30px; font-size: 16px; color: blue;" >Logout Successful.</p>
 {% endif %}
 
 {% if failed %}
-  <p>Sorry, your username and password are incorrect. Try again.</p>
+<p style="padding: 20px 30px 20px 30px; font-size: 16px; color: red;" >Sorry, your username and password are incorrect. Try again.</p>
 {% endif %}
 
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    
-    <button type="submit">Login</button>
-  </form>
-  <p><a href="{% url 'signup' %}"> Sign Up</a></p>
+<div class="form" style="font-weight: bold;">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <button class="rounded-corner-link-small" style="position: relative; left: 35%;"
+         type="submit">Login</button>
+    </form>
+    <p style="margin: -5px;"><a href="{% url 'signup' %}"> Sign Up</a></p>
+
+</div>
 {% endblock %}
