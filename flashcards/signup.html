@@ -4,25 +4,30 @@
 
 
 {% block content %}
+
+<div class="form" style="margin-top: 400px; line-height: 130%; height: auto;">
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
       <p>
-        {{ field.label_tag }}<br>
+        {{ field.label_tag }}
         {{ field }}
+        <br>
         <!-- instruction for entering info-->
         {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
+          <small style="color: grey; font-size: 16px; font-weight: bold;">{{ field.help_text }}</small>
         {% endif %}
         {% for error in field.errors %}
         <!-- error message -->
-          <p style="color: red">{{ error }}</p>
+          <p style="color: red; font-size: 16px; font-weight: bold;">{{ error }}</p>
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit">Sign up</button>
+    <button type="submit" class="rounded-corner-link-small" style="position: relative; left: 42%;">Sign up</button>
   </form>
 
   <p><a href="{% url 'login' %}"> Login to Exsisting Account</a></p>
+</div>
+
 {% endblock %}
