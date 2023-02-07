@@ -2,6 +2,7 @@ from django.db import models
 
 # create a model of the flashcard
 class Card(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default= 1) # set default user to admin
     question = models.CharField(max_length=400)
     answer = models.CharField(max_length=400)
     points = models.IntegerField(default=1)

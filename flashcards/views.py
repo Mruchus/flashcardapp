@@ -6,7 +6,6 @@ from .models import Card, Review
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth import logout, authenticate, login
-from django.contrib.auth.forms import UserCreationForm
 
 from django.views.generic import (
     CreateView,
@@ -35,6 +34,7 @@ def display_cards(request):
 
 def signup(request):
     if request.method == 'POST':
+        # populate form fields
         form = NewUserForm(request.POST)
         if form.is_valid():
             form.save()
@@ -80,7 +80,7 @@ def home(request):
         print('User', request.user) 
         first_id = Card.objects.all().first().id
         # get last three cards
-        cards = Card.objects.order_by('-id')[:3]
+        cards = Card.objects.filter(user=request.user).order_by('-id')[:3]
         return render(request, 'home.html', {'first_id': first_id, 'cards' : cards, 'user': request.user})
     else:
         # go to login page to sign in
@@ -90,9 +90,9 @@ def card_detail(request, card_id):
     num_cards = Card.objects.count()
     try:
         # get card based on pk
-        card = Card.objects.get(pk=card_id)
+        card = Card.objects.filter(user=request.user).get(pk=card_id)
         # get a collection of all card objects
-        cards = Card.objects.all()
+        cards = Card.objects.filter(user=request.user).all()
 
         # find the index of the card
         for index, obj in enumerate(cards):
