@@ -6,6 +6,7 @@ from .models import Card, Review
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views.generic import (
     CreateView,
@@ -78,16 +79,21 @@ def home(request):
     # already signed in
     if request.user.is_authenticated:   
         print('User', request.user) 
-        first_id = Card.objects.all().first().id
+        first_id = Card.objects.all().filter(user=request.user).first().id
         # get last three cards
         cards = Card.objects.filter(user=request.user).order_by('-id')[:3]
+
+        #print("the first id is", first_id)
         return render(request, 'home.html', {'first_id': first_id, 'cards' : cards, 'user': request.user})
     else:
         # go to login page to sign in
         return redirect('login')
 
 def card_detail(request, card_id):
-    num_cards = Card.objects.count()
+    #print("the card id is", card_id)
+    num_cards = Card.objects.filter(user=request.user).count()
+    first_id = Card.objects.all().filter(user=request.user).first().id
+    last_id = Card.objects.all().filter(user=request.user).last().id
     try:
         # get card based on pk
         card = Card.objects.filter(user=request.user).get(pk=card_id)
@@ -101,23 +107,30 @@ def card_detail(request, card_id):
         
         start_of_cards = False
         end_of_cards = False
-        
-        if current_i == 0: # start of cards so no card before
+
+        print("this is the card, first and last id", card_id, first_id, last_id)
+        if card_id == first_id: # start of cards so no card before
             start_of_cards = True
             previous_id = None
-            next_id = cards[current_i+1].id
+            try:
+                next_id = cards[current_i+1].id
+            except:
+                end_of_cards = True
+                # only one card
+                next_id = None
 
-        if current_i == num_cards - 1: # last card so no more cards afterwards
+        elif card_id == last_id: # last card so no more cards afterwards
             end_of_cards = True
             previous_id = cards[current_i-1].id
             next_id = None
         
-        elif current_i != 0: # card in the middle
+        elif card_id != first_id: # card in the middle
             previous_id = cards[current_i-1].id
             next_id = cards[current_i+1].id
 
     except Card.DoesNotExist:
-        raise Http404("Question does not exist")
+        return redirect('create_card')
+        #raise Http404("Question does not exist")
 
     return render(request, 'card_detail.html',
     {'card': card, 'num_of_cards':num_cards,
@@ -125,12 +138,16 @@ def card_detail(request, card_id):
     'start_of_cards': start_of_cards, 'end_of_cards': end_of_cards,})
 
 # form to add new flashcards
-class CardCreateView(CreateView):
+class CardCreateView(LoginRequiredMixin, CreateView):
     model = Card
     fields = ["question", "answer",] # fields for the form
 
     # after form successfully completed, return to creating more cards
     success_url = reverse_lazy("create_card") 
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs): 
         'add additional context variables to the template context'
