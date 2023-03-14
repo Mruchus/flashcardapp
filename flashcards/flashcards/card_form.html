@@ -77,6 +77,7 @@
         <!-- go to card just created-->
         {% if current_id %}
             <a href="{% url 'display_card' current_id %}" class="rounded-corner-link-small-y">Previous</a>
+        <!-- when creating card -->
         {% elif last_id %}
             <a href="{% url 'display_card' last_id %}" class="rounded-corner-link-small-y">Previous</a>
         {% endif %}

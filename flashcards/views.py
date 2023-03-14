@@ -149,13 +149,13 @@ class CardCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs): 
+    def get_context_data(self, **kwargs,): 
         'add additional context variables to the template context'
         context = super().get_context_data(**kwargs) # get the default context data from the parent class
         context['num_cards'] = Card.objects.count()
 
         # get the id of the previously created card
-        context['last_id'] = Card.objects.all().last().id
+        context['last_id'] = Card.objects.filter(user=self.request.user).all().last().id
         return context
 
 # form to edit flashcards
