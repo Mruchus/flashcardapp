@@ -200,6 +200,8 @@ class CardDeleteView(DeleteView): #looks for card_confirm_delete.html
 
 # determine which flashcards need to be reviewed
 def review(request):
+    # has the user finished reviewing yet?
+    review_completed = False
 
     # after finish review
     if request.method == 'POST':
@@ -234,11 +236,19 @@ def review(request):
     else: # GET 
         # is NOT completed, order by earliest date, get first queue
         earliest_scheduled_review = Review.objects.filter(completed__isnull=True).order_by('scheduled').first()
+
+        # get the first flashcard to be reviewed
         flashcard = earliest_scheduled_review.flashcard
-        
-        # set the start time 
-        earliest_scheduled_review.started = timezone.now()
-        earliest_scheduled_review.save()
-        
-        # Render the review template, passing in the flashcards to review
-        return render(request, 'review.html', {'card': flashcard, 'review': earliest_scheduled_review})
+
+        if earliest_scheduled_review.scheduled > timezone.now(): # if no flashcards to be reviewed yet
+            review_completed = True
+
+            return render(request, 'review.html', {'review_completed': review_completed})
+        else:
+            
+            # set the start time 
+            earliest_scheduled_review.started = timezone.now()
+            earliest_scheduled_review.save()
+            
+            # Render the review template, passing in the flashcards to review
+            return render(request, 'review.html', {'card': flashcard, 'review': earliest_scheduled_review, 'review_completed': review_completed})

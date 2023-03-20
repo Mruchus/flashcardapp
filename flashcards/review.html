@@ -13,41 +13,56 @@
 <!-- library of cards-->
 <a href="{% url 'home' %}" class="rounded-corner-link-small" >Return to Card Library</a>
 
-<br>
-<H class="title">Reviewing</H>
-<br>
+{% if review_completed == False %}
 
-<div class="card">
-    <math-field style="font-size: 32px;" read-only style="display:inline-block">
-        {{ card.question }}
-    </math-field>
+    <br>
+    <H class="title">Reviewing</H>
+    <br>
 
-    <div id="back" style="display: none;">
-    <math-field style="font-size: 32px; margin-top: 20px;" read-only style="display:inline-block">
-        {{ card.answer }}
-    </math-field>
+    <div class="card">
+        <math-field style="font-size: 32px;" read-only style="display:inline-block">
+            {{ card.question }}
+        </math-field>
+
+        <div id="back" style="display: none;">
+        <math-field style="font-size: 32px; margin-top: 20px;" read-only style="display:inline-block">
+            {{ card.answer }}
+        </math-field>
+        </div>
+
+        <!-- button to show answer -->
+        <input type="button" name="show-button" onclick="showElements()" class="rounded-corner-link-small"
+        style="margin-top: 50px;" value="S h o w &nbsp; B a c k" />
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="review_id" value="{{ review.id }}"/>
+            <button type="submit" class="red-button" name="one" >1 &nbsp; m i n</button>
+            <button type="submit" class="yellow-button" name="ten">1 0 &nbsp; m i n s</button>
+            <button type="submit" class="green-button" name="four">4 &nbsp; d a y s</button>
+        </form>
+
     </div>
 
-    <!-- button to show answer -->
-    <input type="button" name="show-button" onclick="showElements()" class="rounded-corner-link-small"
-     style="margin-top: 50px;" value="S h o w &nbsp; B a c k" />
+    <!-- when button clicked, display contents of 'back' section -->
+    <script>
+        function showElements() {
+        document.getElementById("back").style.display = "";
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="hidden" name="review_id" value="{{ review.id }}"/>
-        <button type="submit" class="red-button" name="one" >1 &nbsp; m i n</button>
-        <button type="submit" class="yellow-button" name="ten">1 0 &nbsp; m i n s</button>
-        <button type="submit" class="green-button" name="four">4 &nbsp; d a y s</button>
-    </form>
+        }
+    </script>
 
-</div>
+{% else %}
+    <script>
+        document.body.style.backgroundColor = "#E2F0CB";
+    </script>
 
-<!-- when button clicked, display contents of 'back' section -->
-<script>
-    function showElements() {
-    document.getElementById("back").style.display = "";
+    <header style="text-align: center; padding: 50px; "> Well done! You've finished reviewing all your cards</header>
+    <img src="/static/welldone.gif" style="display: block; margin-left: auto; margin-right: auto; width: 30%;">
+    
+{% endif %}
 
-    }
-</script>
+
+
 
