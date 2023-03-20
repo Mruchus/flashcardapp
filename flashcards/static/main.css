@@ -7,6 +7,9 @@ body {
     letter-spacing: 0.12em;
   }
 
+math-field {
+  border: 0px;
+}
 
 /* Create two columns/boxes that floats next to each other */
 .home-display {
