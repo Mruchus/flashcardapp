@@ -70,6 +70,66 @@ style="opacity: 100%;">Review Cards ►</a>
         document.getElementById("mouse2").style.opacity = "100%";
     }   
 
+
+    //   var data = google.visualization.arrayToDataTable([
+    //       ['Task', 'Hours per Day'],
+    //       ['Work',     11],
+    //       ['Eat',      2],
+    //       ['Commute',  2],
+    //       ['Watch TV', 2],
+    //       ['Sleep',    7]
+    //     ]);
+
 </script>
 
+<script>
+    var times = JSON.parse('{{ times|escapejs }}'); // parse string and 
+    //  escape js prevents security vulnerabilities such as cross-site scripting
+    console.log(times)
+</script>
 
+<div class="feedback" style="display: flex; letter-spacing: 0.03em; font-weight: bold;">
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"> // load statics </script> 
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = new google.visualization.DataTable(); // initialise table object to hold data
+        data.addColumn('string', 'Card');
+        data.addColumn('number', 'Time');
+
+        for (var key in times) { // go through all flashcards
+            var dataArray = [];
+            // data -> flashcards name & corresponding time spent
+            dataArray.push([key, Number(times[key])]) 
+            // add to table
+            data.addRows(dataArray);
+        }
+        
+
+        var options = {
+          title: 'Time Spent on Flashcards',
+          titleTextStyle: {  
+            fontSize: 15
+             },
+        
+          pieHole: 0.4, // donut shape
+
+          // chart design
+          backgroundColor:'#F5F5F5',
+          colors: ['#032437', '#022F46', '#842C2A', '#C23D2A', '#E98B43', '#B29591'],
+          chartArea:{right:'12%', width:'75%',height:'75%'}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart')); 
+        chart.draw(data, options); // render
+    }
+    </script>
+  </head>
+  <body>
+    <div id="donutchart" style="width: 900px; height: 600px;"></div>
+  </body>
+</div>

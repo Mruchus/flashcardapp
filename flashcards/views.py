@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 from .models import Card, Review
 from django.urls import reverse_lazy
 from django.utils import timezone
+from datetime import timedelta
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -15,6 +16,8 @@ from django.views.generic import (
 )
 
 from .forms import LoginForm, NewUserForm
+import json
+import math
 
 # class-based view -> allows you to display a list or detail page for a model
 
@@ -83,8 +86,34 @@ def home(request):
         # get last three cards
         cards = Card.objects.filter(user=request.user).order_by('-id')[:3]
 
+
+        # GATHER SUMMARY FEEDBACK DATA
+        # get all completed review objects belonging to AUTHORISED USER
+        reviews = Review.objects.all().filter(completed__isnull=False)
+
+        # group reviews by their coressponding flashcards
+        flashcard_reviews = {} # dictionary to keep track of flaschard -> reviews
+        for review in reviews:
+            flashcard = review.flashcard 
+            if flashcard in flashcard_reviews: 
+                flashcard_reviews[flashcard].append(review) # add review to exsisting
+            else:
+                flashcard_reviews[flashcard] = [review] # add new flashcard + review pair
+        
+        # calculate total time
+        flashcard_times = {}
+        for flashcard, reviews in flashcard_reviews.items():
+            time_spent = timedelta() # object keeps track of duration
+            for i in range(len(reviews)):
+                    time_spent += reviews[i].completed - reviews[i].started
+
+            flashcard_name =  str(flashcard)
+            flashcard_times[flashcard_name] = math.ceil(time_spent.total_seconds()/60) # find time spent in mins
+
+            times_json = json.dumps(flashcard_times) # convert into json formatted string for later parsing
+
         #print("the first id is", first_id)
-        return render(request, 'home.html', {'first_id': first_id, 'cards' : cards, 'user': request.user})
+        return render(request, 'home.html', {'first_id': first_id, 'cards' : cards, 'user': request.user, 'times': times_json })
     else:
         # go to login page to sign in
         return redirect('login')
