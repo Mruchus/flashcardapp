@@ -81,15 +81,22 @@ def login_view(request):
 def home(request):    
     # already signed in
     if request.user.is_authenticated:   
-        print('User', request.user) 
-        first_id = Card.objects.all().filter(user=request.user).first().id
+        #print('User', request.user) 
+        times_json = {}
+
+        first = Card.objects.all().filter(user=request.user).first()
+        if first == None:
+            first_id = None
+        else:
+            first_id = first.id
+
         # get last three cards
         cards = Card.objects.filter(user=request.user).order_by('-id')[:3]
 
 
         # GATHER SUMMARY FEEDBACK DATA
         # get all completed review objects belonging to AUTHORISED USER
-        reviews = Review.objects.all().filter(completed__isnull=False)
+        reviews = Review.objects.all().filter(completed__isnull=False).filter(flashcard__user=request.user)
 
         # group reviews by their coressponding flashcards
         flashcard_reviews = {} # dictionary to keep track of flaschard -> reviews
@@ -117,7 +124,7 @@ def home(request):
     else:
         # go to login page to sign in
         return redirect('login')
-
+ 
 def card_detail(request, card_id):
     #print("the card id is", card_id)
     num_cards = Card.objects.filter(user=request.user).count()
@@ -184,7 +191,9 @@ class CardCreateView(LoginRequiredMixin, CreateView):
         context['num_cards'] = Card.objects.count()
 
         # get the id of the previously created card
-        context['last_id'] = Card.objects.filter(user=self.request.user).all().last().id
+        last = Card.objects.filter(user=self.request.user).all().last()
+        if last:
+            context['last_id'] = last.id
         return context
 
 # form to edit flashcards
@@ -264,20 +273,23 @@ def review(request):
 
     else: # GET 
         # is NOT completed, order by earliest date, get first queue
-        earliest_scheduled_review = Review.objects.filter(completed__isnull=True).order_by('scheduled').first()
+        earliest_scheduled_review = Review.objects.filter(completed__isnull=True).filter(flashcard__user=request.user).order_by('scheduled').first()
 
         # get the first flashcard to be reviewed
-        flashcard = earliest_scheduled_review.flashcard
+        if earliest_scheduled_review: # if there are any cards
+            flashcard = earliest_scheduled_review.flashcard
 
-        if earliest_scheduled_review.scheduled > timezone.now(): # if no flashcards to be reviewed yet
-            review_completed = True
-
-            return render(request, 'review.html', {'review_completed': review_completed})
-        else:
+            if earliest_scheduled_review.scheduled > timezone.now(): # if no flashcards to be reviewed yet
+                review_completed = True
+                return render(request, 'review.html', {'review_completed': review_completed})
             
-            # set the start time 
-            earliest_scheduled_review.started = timezone.now()
+            # Flashcards still to be review:
+            earliest_scheduled_review.started = timezone.now() # set the start time 
             earliest_scheduled_review.save()
             
             # Render the review template, passing in the flashcards to review
             return render(request, 'review.html', {'card': flashcard, 'review': earliest_scheduled_review, 'review_completed': review_completed})
+
+        else:
+            review_completed = True
+            return render(request, 'review.html', {'review_completed': review_completed})

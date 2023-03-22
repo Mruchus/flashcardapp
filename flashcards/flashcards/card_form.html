@@ -25,6 +25,10 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
+<!-- go back to library of cards-->
+<a href="{% url 'home' %}" style="margin-bottom: 1em;" class="rounded-corner-link-small"> Return to Card Library</a>
+
+
 {% block content %}
     {% if card %}
         <!-- template recieves card data so should be in the edit view -->
