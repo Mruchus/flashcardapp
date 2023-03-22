@@ -5,6 +5,8 @@ from django.http import HttpResponse, Http404
 from .models import Card, Review
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from datetime import timedelta
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -183,7 +185,21 @@ class CardCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+
+        # save card object
+        card = form.save(commit=False)
+        card.user = self.request.user
+        card.save()
+
+        # create Review object with scheduled time set to now
+        review = Review.objects.create(
+            flashcard=card,
+            scheduled=timezone.now()
+        )
+        review.save()
+
         return super().form_valid(form)
+    
 
     def get_context_data(self, **kwargs,): 
         'add additional context variables to the template context'
