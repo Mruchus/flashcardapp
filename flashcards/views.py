@@ -186,9 +186,10 @@ class CardCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
 
-        # save card object
         card = form.save(commit=False)
+        # make sure user is connected to card
         card.user = self.request.user
+        # save card object
         card.save()
 
         # create Review object with scheduled time set to now
